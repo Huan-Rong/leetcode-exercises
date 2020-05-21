@@ -36,7 +36,35 @@ public class P24SwapNodesInPairs {
   class Solution {
 
     public ListNode swapPairs(ListNode head) {
-      return useWhile2(head);
+      return useRecursion(head);
+    }
+
+    /**
+     * 第三种解法：使用递归。
+     *
+     * 时间复杂度：O(n)
+     * 空间复杂度：O(n)，递归过程使用的堆栈空间。递归这种解法的空间复杂度差于 {@code while} 迭代法。
+     *           这里重点是感受递归的使用。
+     *
+     * <p>理解递归的重点：
+     *
+     *    1.递归有助于将大规模问题分解为解法思路相同的小问题。
+     *    2.实现递归，重要的是理解递归过程，递归终止条件。
+     * </p>
+     */
+    private ListNode useRecursion(ListNode head) {
+      if (head == null || head.next == null) {
+        return head;
+      }
+
+      ListNode formerNode = head;
+      ListNode latterNode = head.next;
+
+      // 递归
+      formerNode.next = useRecursion(latterNode.next);
+      latterNode.next = formerNode;
+
+      return latterNode;
     }
 
     /**
