@@ -40,16 +40,118 @@ public class P70ClimbingStairs {
   class Solution {
 
     public int climbStairs(int n) {
-      return fibonacci2ndTime(n);
+      // return fibonacci2ndTime(n);
+      // return fibonacci3rdTime(n);
+      // return recursion3rdTime(n);
+      // return memoRecursion3rdTime(n);
+      return memoRecursion3rdDiffDirection(n);
     }
 
+    /******************第3遍20200527************************/
+
+    /**
+     * 第五种解法：使用 fibonacci 数列算法。
+     *
+     * 写代码多考虑边界。
+     *
+     * 时间复杂度：O(n) 空间复杂度：O(1)
+     */
+    private int fibonacci3rdTime(int n) {
+      if (n == 1) {
+        return 1;
+      }
+      int first = 1;
+      int second = 2;
+      for (int i = 3; i <= n; i++) {
+        int third = first + second;
+        first = second;
+        second = third;
+      }
+      return second;
+    }
+
+    /**
+     * 第四种解法：使用优化后的递归，但是递归的方向不同。
+     *
+     * 时间复杂度：O(n)
+     * 空间复杂度：O(n)
+     */
+    private int memoRecursion3rdDiffDirection(int n) {
+      int[] memo = new int[n + 1];
+      return memoRecursion3rdDiffDirection(0, n, memo);
+    }
+
+    private int memoRecursion3rdDiffDirection(int i, int n, int[] memo) {
+      if (i > n) {
+        return 0;
+      }
+      if (i == n) {
+        return 1;
+      }
+      if (memo[i] > 0) {
+        return memo[i];
+      }
+      memo[i] = memoRecursion3rdDiffDirection(i + 1, n, memo) + memoRecursion3rdDiffDirection(i + 2, n, memo);
+      return memo[i];
+    }
+
+    /**
+     * 第三种解法：使用未优化的递归，但是递归的方向不同。
+     *
+     * 时间复杂度：O(2^n)
+     * 空间复杂度：O(n)
+     */
+    private int recursion3rdTimeDiffDirection(int i, int n) {
+      if (i > n) {
+        return 0;
+      }
+      if (i == n) {
+        return 1;
+      }
+      return recursion3rdTimeDiffDirection(i + 1, n) + recursion3rdTimeDiffDirection(i + 2, n);
+    }
+
+    /**
+     * 第二种解法：使用优化后的递归
+     *
+     * 时间复杂度：O(n) 空间复杂度：O(n)
+     */
+    private int memoRecursion3rdTime(int n) {
+      int[] memo = new int[n + 1];
+      return memoRecursion3rdTime(n, memo);
+    }
+
+    private int memoRecursion3rdTime(int n, int[] memo) {
+      if (n <= 2) {
+        return n;
+      }
+      if (memo[n] > 0) {
+        return memo[n];
+      }
+      memo[n] = memoRecursion3rdTime(n - 1, memo) + memoRecursion3rdTime(n - 2, memo);
+      return memo[n];
+    }
+
+    /**
+     * 第一种解法：使用未优化的递归
+     *
+     * 时间复杂度：O(2^n) 空间复杂度：O(n)
+     */
+    private int recursion3rdTime(int n) {
+      if (n == 1) {
+        return 1;
+      }
+      if (n == 2) {
+        return 2;
+      }
+      return recursion3rdTime(n - 1) + recursion3rdTime(n - 2);
+    }
 
     /******************第2遍20200526************************/
     /**
      * 第四种解法，使用 fibonacci 数列。
      *
-     * 时间复杂度：O(n)
-     * 空间复杂度：O(1）
+     * 时间复杂度：O(n) 空间复杂度：O(1）
      */
     private int fibonacci2ndTime(int n) {
       if (n == 1) {
@@ -68,11 +170,11 @@ public class P70ClimbingStairs {
       }
       return second;
     }
+
     /**
      * 第三种解法：使用优化的递归。优化后的递归能够减少重复的计算。
      *
-     * 时间复杂度：O(n)
-     * 空间复杂度：O(n)
+     * 时间复杂度：O(n) 空间复杂度：O(n)
      */
     private int memoRecursion2ndTime(int n) {
       int[] memo = new int[n + 1];
@@ -122,14 +224,14 @@ public class P70ClimbingStairs {
      *
      * 时间复杂度：O(2^n) 空间复杂度：O(n)
      */
-    private int resursion2ndTime(int n) {
+    private int recursion2ndTime(int n) {
       if (n == 1) {
         return 1;
       }
       if (n == 2) {
         return 2;
       }
-      return resursion2ndTime(n - 1) + resursion2ndTime(n - 2);
+      return recursion2ndTime(n - 1) + recursion2ndTime(n - 2);
     }
 
     /******************第1遍20200525************************/
