@@ -33,23 +33,122 @@ public class P24SwapNodesInPairs {
    * Definition for singly-linked list. public class ListNode { int val; ListNode next; ListNode(int
    * x) { val = x; } }
    */
+  @SuppressWarnings("Duplicates")
   class Solution {
 
     public ListNode swapPairs(ListNode head) {
-      return useRecursion(head);
+      // return useRecursion(head);
+      // return while1stTime(head);
+      // return recursion1ndTime(head);
+      // return iterate2ndTime(head);
+      return recursion2ndTime(head);
+    }
+
+    /******************第2遍20200528************************/
+    /**
+     * 第二种解法：使用递归
+     *
+     * 时间复杂度：O(n)，n 表示需要遍历的链表长度。
+     * 空间复杂度：O(n)，n 表示递归过程使用的堆栈空间数量/深度。
+     */
+    private ListNode recursion2ndTime(ListNode head) {
+      /* 递归的终止条件：
+       *  当不存在结点时，返回 null；
+       *  当只存在一个结点时，返回该节点；
+       */
+      if (head == null || head.next == null) {
+        return head;
+      }
+
+      // 定义需要交换的两个结点
+      ListNode former = head;
+      ListNode latter = head.next;
+
+      // 交换结点
+      former.next = recursion2ndTime(latter.next);
+      latter.next = former;
+      return latter;
+    }
+    /**
+     * 第一种解法：迭代解决
+     *
+     * 时间复杂度：O(n)，n 表示需要遍历的链表长度。
+     * 空间复杂度：O(1)
+     */
+    private ListNode iterate2ndTime(ListNode head) {
+      ListNode dummy = new ListNode();
+      dummy.next = head;
+      ListNode prev = dummy;
+
+      while (prev.next != null && prev.next.next != null) {
+        ListNode former = prev.next;
+        ListNode latter = prev.next.next;
+        // 交换结点
+        former.next = latter.next;
+        latter.next = former;
+        // 保证链表不断裂
+        prev.next = latter;
+        // 重置 prev 指针
+        prev = former;
+      }
+
+      return dummy.next;
+    }
+
+    /******************第1遍20200527************************/
+    /**
+     * 第二种解法：递归
+     */
+    private ListNode recursion1ndTime(ListNode head) {
+      if (head == null || head.next == null) {
+        return head;
+      }
+
+      ListNode former = head;
+      ListNode latter = head.next;
+
+      former.next = recursion1ndTime(latter.next);
+      latter.next = former;
+
+      return latter;
     }
 
     /**
+     * 第一种解法：使用迭代。
+     *
+     * 时间复杂度：O(n) 空间复杂度：O(1)
+     */
+    private ListNode while1stTime(ListNode head) {
+      ListNode dummy = new ListNode();
+      dummy.next = head;
+      ListNode prev = dummy;
+
+      while (prev.next != null && prev.next.next != null) {
+        ListNode former = prev.next;
+        ListNode latter = prev.next.next;
+
+        // 交换操作
+        former.next = latter.next;
+        latter.next = former;
+        // 保证链表不断
+        prev.next = latter;
+        // 重置 prev
+        prev = former;
+      }
+      return dummy.next;
+    }
+
+    /******************第0遍20200527************************/
+    /**
      * 第三种解法：使用递归。
      *
-     * 时间复杂度：O(n)
-     * 空间复杂度：O(n)，递归过程使用的堆栈空间。递归这种解法的空间复杂度差于 {@code while} 迭代法。
-     *           这里重点是感受递归的使用。
+     * 时间复杂度：O(n) 空间复杂度：O(n)，递归过程使用的堆栈空间。
+     *
+     * <p>递归这种解法的空间复杂度差于 {@code while} 迭代法。 这里重点是感受递归的使用。
      *
      * <p>理解递归的重点：
      *
-     *    1.递归有助于将大规模问题分解为解法思路相同的小问题。
-     *    2.实现递归，重要的是理解递归过程，递归终止条件。
+     * 1.递归有助于将大规模问题分解为解法思路相同的小问题。 2.实现递归，重要的是理解递归过程，递归终止条件。
      * </p>
      */
     private ListNode useRecursion(ListNode head) {
@@ -74,8 +173,7 @@ public class P24SwapNodesInPairs {
      *
      * <p>处理过程中需要注意，链表不能中断。</p>
      *
-     * 时间复杂度：O(n)
-     * 空间复杂度：O(1)
+     * 时间复杂度：O(n) 空间复杂度：O(1)
      */
     private ListNode useWhile2(ListNode head) {
       // 改造无头单链表为带头单链表
@@ -102,8 +200,7 @@ public class P24SwapNodesInPairs {
     /**
      * 第一种方法：使用 while 循环解决。
      *
-     * 时间复杂度：O(n)，n 是链表中的节点数量
-     * 空间复杂度：O(1）
+     * 时间复杂度：O(n)，n 是链表中的节点数量 空间复杂度：O(1）
      *
      * <p>编码实现的方式不够优雅，在这里需要单独处理头结点。</p>
      * <p>另外需要注意边界的处理，如{@code []}, {@code [1}</p>
@@ -139,21 +236,4 @@ public class P24SwapNodesInPairs {
   }
   //leetcode submit region end(Prohibit modification and deletion)
 
-  class ListNode {
-
-    int val;
-    ListNode next;
-
-    ListNode() {
-    }
-
-    ListNode(int val) {
-      this.val = val;
-    }
-
-    ListNode(int val, ListNode next) {
-      this.val = val;
-      this.next = next;
-    }
-  }
 }
